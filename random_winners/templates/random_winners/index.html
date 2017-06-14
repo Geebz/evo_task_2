@@ -14,18 +14,42 @@
             height: 100px;
         }
 
-        #submit {
+        #add_person, #three_winners, #delete_person {
             margin-top: 5px;
         }
     </style>
 </head>
 <body>
 <div id="form">
-    <form action="{% url "send_form" %}" method="post">
+    <form method="post">
         {% csrf_token %}
-        {{ form }}
-        <input id="submit" type="submit" value="Добавить участника">
+        <label for="name">Имя:</label>
+        <input id="name" type="text">
+        <input id="add_person" type="submit" value="Добавить участника">
+        <input id="three_winners" type="submit" value="Выбрать победителей">
+        <input id="delete_person" type="submit" value="Удалить участника">
     </form>
+    <div id="show_results"></div>
 </div>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
+
+<script>
+    $("#add_person").click(function () {
+        $.ajax({
+            'type': "POST",
+            'url': {% url "send_form_ajax" %},
+            'data': {
+                'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val(),
+                'post_data': $("#name").val()
+            },
+            'success': function (data) {
+                alert(data['success']);
+                $("#show_results").text(data['success']);
+            }
+        });
+    })
+</script>
 </body>
 </html>

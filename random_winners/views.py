@@ -1,3 +1,4 @@
+import re
 import random
 
 from django.http.response import JsonResponse
@@ -8,22 +9,28 @@ from .models import Person
 
 
 # Create your views here.
-def send_form(request):
+
+def send_form_ajax(request):
     if request.method == "POST":
-        form = PersonForm(request.POST)
-        if form.is_valid():
-            name = form.cleaned_data['name'].lower()
-            name = name.capitalize()
-            if Person.objects.filter(name=name).exists():
-                return JsonResponse("Name {} is exist in DB".format(name), safe=False)
-            else:
-                person = form.save(commit=False)
-                person.name = name
-                person.save()
-            return JsonResponse("Name {} is successfully added!".format(person.name), safe=False)
-    else:
-        form = PersonForm()
-    return render(request, "random_winners/index.html", {'form': form})
+        Person.objects.create(name='test')
+        name = request.POST.get('post_data')
+
+        if not name:
+            return JsonResponse({"success": "Пожалуйста, введите имя пользователя"})
+        elif re.fullmatch('^[А-Яа-яA-Za-z]+$', name) is None:
+            return JsonResponse({"success": "Используйте в имени только буквы, логично не правда ли?"})
+
+        name = name.lower().capitalize()
+
+        if Person.objects.filter(name=name).exists():
+            return JsonResponse({"success": "Имя {} уже существует в базе".format(name)})
+        else:
+            Person.objects.create(name=name)
+            return JsonResponse({"success": "Имя {} успешно добавлено!".format(name)})
+
+
+def index(request):
+    return render(request, 'random_winners/index.html')
 
 
 def call_three_random_names(request):
