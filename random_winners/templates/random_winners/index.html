@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EVO SPL`17</title>
+    <style>
+        #form {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -50px;
+            margin-left: -50px;
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+<div id="form">
+    <form action="{% url "send_form" %}" method="post">
+        {{ form }}
+        <input type="submit" value="Добавить участника">
+    </form>
+</div>
+</body>
+</html>

@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from random_winners.views import send_form
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^$', send_form, name='send_form')
 ]
