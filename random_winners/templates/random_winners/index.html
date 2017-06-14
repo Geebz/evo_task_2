@@ -13,13 +13,18 @@
             width: 100px;
             height: 100px;
         }
+
+        #submit {
+            margin-top: 5px;
+        }
     </style>
 </head>
 <body>
 <div id="form">
     <form action="{% url "send_form" %}" method="post">
+        {% csrf_token %}
         {{ form }}
-        <input type="submit" value="Добавить участника">
+        <input id="submit" type="submit" value="Добавить участника">
     </form>
 </div>
 </body>
