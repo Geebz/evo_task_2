@@ -25,6 +25,7 @@
         {% csrf_token %}
         <label for="name">Имя:</label>
         <input id="name" type="text">
+
         <input id="add_person" type="submit" value="Добавить участника">
         <input id="three_winners" type="submit" value="Выбрать победителей">
         <input id="delete_person" type="submit" value="Удалить участника">
@@ -37,14 +38,25 @@
 
 <script>
 
-    function ajax_call_add_delete(url) {
-
-    }
-
     $("#add_person").click(function () {
         $.ajax({
             'type': "POST",
             'url': {% url "add_person" %},
+            'data': {
+                'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val(),
+                'name': $("#name").val()
+            },
+            'success': function (data) {
+                $("#show_results").text(data['success']);
+            }
+        });
+        return false
+    });
+
+    $("#delete_person").click(function () {
+        $.ajax({
+            'type': "POST",
+            'url': {% url "delete_person" %},
             'data': {
                 'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val(),
                 'name': $("#name").val()
