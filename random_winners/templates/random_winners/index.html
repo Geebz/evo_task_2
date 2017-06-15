@@ -38,10 +38,10 @@
 
 <script>
 
-    $("#add_person").click(function () {
+    function ajax_call_add_delete(url) {
         $.ajax({
             'type': "POST",
-            'url': {% url "add_person" %},
+            'url': url,
             'data': {
                 'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val(),
                 'name': $("#name").val()
@@ -50,23 +50,18 @@
                 $("#show_results").text(data['success']);
             }
         });
+    }
+
+    $("#add_person").click(function () {
+        ajax_call_add_delete({% url "add_person" %});
         return false
     });
 
     $("#delete_person").click(function () {
-        $.ajax({
-            'type': "POST",
-            'url': {% url "delete_person" %},
-            'data': {
-                'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val(),
-                'name': $("#name").val()
-            },
-            'success': function (data) {
-                $("#show_results").text(data['success']);
-            }
-        });
+        ajax_call_add_delete({% url "delete_person" %});
         return false
     });
+
 
     $("#three_winners").click(function () {
         $.ajax({
