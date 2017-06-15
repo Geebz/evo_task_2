@@ -36,20 +36,40 @@
         crossorigin="anonymous"></script>
 
 <script>
+
+    function ajax_call_add_delete(url) {
+
+    }
+
     $("#add_person").click(function () {
         $.ajax({
             'type': "POST",
-            'url': {% url "send_form_ajax" %},
+            'url': {% url "add_person" %},
             'data': {
                 'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val(),
-                'post_data': $("#name").val()
+                'name': $("#name").val()
             },
             'success': function (data) {
-                alert(data['success']);
                 $("#show_results").text(data['success']);
             }
         });
+        return false
+    });
+
+    $("#three_winners").click(function () {
+        $.ajax({
+            'type': "POST",
+            'url': {% url "random" %},
+            'data': {
+                'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()
+            },
+            'success': function (data) {
+                $("#show_results").text(data['success']);
+            }
+        });
+        return false
     })
+
 </script>
 </body>
 </html>

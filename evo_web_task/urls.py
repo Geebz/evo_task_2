@@ -15,11 +15,11 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from random_winners.views import call_three_random_names, send_form_ajax, index
+from random_winners.views import call_three_random_names, add_person, index
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', index, name='send_form'),
-    url(r'^add_ajax/$', send_form_ajax, name='send_form_ajax'),
+    url(r'^add_person/$', add_person, name='add_person'),
     url(r'^random/$', call_three_random_names, name='random')
 ]
